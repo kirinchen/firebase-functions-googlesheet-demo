@@ -36,6 +36,7 @@ async function indexByVal(sheet, val) {
 }
 
 async function getByCellVal(sheet, idx) {
+    idx += 2;
     await sheet.loadCells(`H${idx}:H${idx}`); // loads a range of cells
     const hcell = sheet.getCellByA1('H' + idx); //
     return hcell.value;

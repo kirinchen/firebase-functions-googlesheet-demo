@@ -8,9 +8,14 @@ exports.helloWorld = functions.https.onRequest(async (request, response) => {
   try {
     const email = request.query.e;
     functions.logger.info("Hello " + email, { structuredData: true });
-    response.send("Hello " + email);
-    // await runSyncSheet(email);
-    // response.send(email+" 謝謝你的支持 這是你的  🍦 🍦 🍦 🍦 🍦");
+    // response.send("Hello " + email);
+    const ok = await runSyncSheet(email);
+    if(ok){
+      response.send(email+" 謝謝你的支持 這是你的  🍦 🍦 🍦 🍦 🍦");
+    }else{
+      response.send(email+" 你已經換過了喔");
+    }
+    
   } catch (error) {
     response.send(error);
   }
@@ -24,9 +29,10 @@ const runSyncSheet = async (email) => {
   const isRedeemed = await googleSheet.getByCellVal(sheet, idx);
   if (isRedeemed == "Y") {
     console.log('isRedeemed=' + isRedeemed);
-    throw "isRedeemed Before";
+    return false;
   }
   googleSheet.setValByIdx(sheet, idx, "Y");
+  return true;
 };
 
 
