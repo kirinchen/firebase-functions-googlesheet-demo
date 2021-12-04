@@ -6,7 +6,7 @@ const config = require('./config');
  * @param  {String} sheetID the google sheet table ID
  * @param  {String} credentialsPath the credentials path defalt is './credentials.json'
  */
-async function getSheet(docID = config.spreadsheet_id, sheetID = config.sheet_id, credentialsPath = './credentials.json') {
+async function getSheet(docID , sheetID = config.sheet_id, credentialsPath = './credentials.json') {
     const doc = new GoogleSpreadsheet(docID);
     const creds = require(credentialsPath);
     await doc.useServiceAccountAuth(creds);

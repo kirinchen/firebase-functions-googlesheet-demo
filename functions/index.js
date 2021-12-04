@@ -7,11 +7,12 @@ exports.helloWorld = functions.https.onRequest(async (request, response) => {
   
   try {
     const email = request.query.e;
+    const gsheetId = request.query.s;
     functions.logger.info("Hello " + email, { structuredData: true });
     // response.send("Hello " + email);
-    const ok = await runSyncSheet(email);
+    const ok = await runSyncSheet(gsheetId,email);
     if(ok){
-      response.send(email+" 謝謝你的支持 這是你的  🍦 🍦 🍦 🍦 🍦");
+      response.send(email+" 謝謝你的支持 這是你的冰淇淋");
     }else{
       response.send(email+" 你已經換過了喔");
     }
@@ -20,9 +21,9 @@ exports.helloWorld = functions.https.onRequest(async (request, response) => {
     response.send(error);
   }
 });
-const runSyncSheet = async (email) => {
+const runSyncSheet = async (gsheetId,email) => {
 
-  const sheet = await googleSheet.getSheet();
+  const sheet = await googleSheet.getSheet(gsheetId);
   // const idx = await googleSheet.indexByVal(sheet, "vampirebat579@gmail.com");
   const idx = await googleSheet.indexByVal(sheet, email);
   console.log(idx);
@@ -37,4 +38,4 @@ const runSyncSheet = async (email) => {
 
 
 
-//  runSyncSheet("sohodiypc@hotmail.com");
+//  runSyncSheet("1Vf0A4HR9qH6mB6LXxHWSInDNKAOc7B05rvsNZl5jfcg","a29243004@gmail.com");
